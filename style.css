@@ -18,7 +18,7 @@ a{color:inherit;}
 #site-header{position:sticky; top:0; background:rgba(251,250,246,.94); backdrop-filter:blur(6px); z-index:50; border-bottom:1px solid var(--cream-100);}
 .nav-wrap{display:flex; align-items:center; justify-content:space-between; padding:18px 6%; max-width:1300px; margin:0 auto;}
 .logo{display:flex; align-items:center; gap:10px; font-weight:800; font-size:20px; color:var(--purple-700); text-decoration:none;}
-.logo-mark{width:34px; height:34px; border-radius:50% 50% 50% 4px; background:linear-gradient(135deg, var(--teal-500), var(--teal-900)); display:flex; align-items:center; justify-content:center; color:#fff; font-size:16px;}
+.logo-mark{width:34px; height:34px; border-radius:50% 50% 50% 4px; background:#46C1C6; display:flex; align-items:center; justify-content:center; color:#9f62c2; font-size:16px;}
 nav#mainNav{display:flex; gap:30px;}
 nav#mainNav a{color:var(--ink-600); text-decoration:none; font-weight:600; font-size:14.5px;}
 nav#mainNav a:hover{color:var(--teal-600);}
@@ -57,7 +57,7 @@ nav#mainNav a:hover{color:var(--teal-600);}
 .p-icon{font-size:34px; margin-bottom:12px;}
 .personal-card h3{font-size:17px; margin-bottom:10px;}
 .personal-card p{color:var(--ink-600); font-size:14px;}
-.sudadera-block{margin-top:44px; display:grid; grid-template-columns:220px 1fr; gap:26px; align-items:center; background:var(--teal-900); color:#fff; border-radius:22px; padding:26px 34px;}
+.sudadera-block{margin-top:44px; display:grid; grid-template-columns:220px 1fr; gap:26px; align-items:center; background:#46C1C6; color:#fff; border-radius:22px; padding:26px 34px;}
 .sudadera-block img{border-radius:14px;}
 .sudadera-block p{font-size:15px; opacity:.92; font-style:italic;}
 
@@ -76,7 +76,7 @@ nav#mainNav a:hover{color:var(--teal-600);}
 
 /* Contact */
 .contact-sec{padding:70px 6% 90px; max-width:1300px; margin:0 auto;}
-.contact{background:var(--teal-900); color:#fff; border-radius:28px; padding:50px; display:grid; grid-template-columns:1fr 1fr; gap:40px;}
+.contact{background:#46C1C6; color:#fff; border-radius:28px; padding:50px; display:grid; grid-template-columns:1fr 1fr; gap:40px;}
 .contact h2{font-family:'Fraunces', serif; font-size:30px; font-weight:600; margin-bottom:10px;}
 .contact p.lead{opacity:.85; margin-bottom:24px; font-size:15px;}
 .contact-item{display:flex; gap:14px; margin-bottom:16px; font-size:14.5px; align-items:flex-start;}
