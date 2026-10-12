@@ -106,3 +106,18 @@ footer{text-align:center; padding:26px; color:var(--ink-600); font-size:13px;}
   .cert-strip, .personal-grid, .gallery{grid-template-columns:1fr;}
   .sudadera-block, .contact{grid-template-columns:1fr;}
 }
+
+/* Ajustes para celular: nada se sale de la pantalla */
+html, body{overflow-x:hidden;}
+.contact > *, .sudadera-block > *, .hero > *{min-width:0;}
+.contact-item span, .contact-item a, .contact-item div{overflow-wrap:anywhere; min-width:0;}
+@media (max-width: 860px){
+  .sudadera-block, .contact{grid-template-columns:minmax(0,1fr);}
+  .contact{padding:30px 22px; gap:28px; border-radius:22px;}
+  .contact h2{font-size:26px; line-height:1.25;}
+  .emergency-box{padding:16px;}
+  .emergency-number{font-size:22px;}
+  .contact-form{max-width:100%;}
+  .map-embed{min-height:280px;}
+  .sudadera-block{padding:22px 20px;}
+}
