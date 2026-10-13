@@ -43,7 +43,7 @@ nav#mainNav a:hover{color:var(--teal-600);}
 .about-intro h2{font-family:'Fraunces', serif; font-size:34px; font-weight:600; margin-bottom:18px;}
 .about-intro p{color:var(--ink-600); font-size:15.5px; max-width:760px; margin-bottom:20px;}
 .badges{display:flex; flex-wrap:wrap; gap:10px; margin-bottom:40px;}
-.badge{background:var(--cream-100); padding:8px 16px; border-radius:20px; font-size:13.5px; font-weight:600; color:var(--purple-700);}
+.badge{border:0; font-family:inherit; cursor:pointer; background:var(--cream-100); padding:8px 16px; border-radius:20px; font-size:13.5px; font-weight:600; color:var(--purple-700);}
 .cert-strip{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
 .cert-strip figure{margin:0;}
 .cert-strip img{border-radius:14px; border:1px solid var(--cream-100); box-shadow:0 10px 24px rgba(29,107,110,.08);}
@@ -124,3 +124,15 @@ html, body{overflow-x:hidden;}
 
 /* Fotos de "Lo que me define" */
 .personal-img{width:130px; height:130px; object-fit:cover; border-radius:50%; display:block; margin:0 auto 16px; box-shadow:0 8px 20px rgba(29,107,110,.18);}
+
+/* Chips de formación con información */
+.badge{transition:background .2s, color .2s;}
+.badge:hover{background:#e8e1d3;}
+.badge[aria-expanded="true"]{background:var(--purple-500); color:#fff;}
+.badge:focus-visible{outline:2px solid var(--purple-500); outline-offset:2px;}
+.badge-info{margin:-24px 0 40px; background:#fff; border:1.5px solid var(--cream-100); border-left:4px solid var(--purple-500); border-radius:14px; padding:20px 24px; box-shadow:0 10px 24px rgba(29,107,110,.08);}
+.badge-info h3{font-size:17px; margin-bottom:8px;}
+.badge-info p{color:var(--ink-600); font-size:14.5px; margin-bottom:10px;}
+.badge-info ul{margin:0 0 0 18px; color:var(--ink-600); font-size:14.5px;}
+.badge-info li{margin-bottom:4px;}
+.badge-info[hidden]{display:none;}

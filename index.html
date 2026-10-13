@@ -7,7 +7,7 @@
 <meta name="description" content="Dr. Oscar Rubén Ojeda Razo, especialista certificado en Ginecología y Obstetricia. Atención en el Sanatorio Santa Teresa, Irapuato, Gto.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=6">
+<link rel="stylesheet" href="style.css?v=7">
 </head>
 <body>
 
@@ -47,11 +47,11 @@
     <h2>Dr. Oscar Rubén Ojeda Razo</h2>
     <p>Médico especialista certificado en Ginecología y Obstetricia por el Consejo Mexicano de Ginecología y Obstetricia, A.C., con formación como Médico Militar Cirujano y estudios en Administración de Hospitales y Gerencia en Salud. Su formación continua incluye actualización constante en temas de salud hormonal y climaterio, siempre con el objetivo de ofrecer una atención integral y actualizada a sus pacientes.</p>
     <div class="badges">
-      <div class="badge">Certificado CONACEM</div>
-      <div class="badge">Especialista en Ginecología y Obstetricia</div>
-      <div class="badge">Médico Militar Cirujano</div>
-      <div class="badge">Diplomado en Administración de Hospitales</div>
+      <button type="button" class="badge" data-info="conacem" aria-expanded="false">Certificado CONACEM</button>
+      <button type="button" class="badge" data-info="especialista" aria-expanded="false">Especialista en Ginecología y Obstetricia</button>
+      <button type="button" class="badge" data-info="diplomado" aria-expanded="false">Diplomado en Administración de Hospitales</button>
     </div>
+    <div class="badge-info" id="badgeInfo" role="region" aria-live="polite" hidden></div>
   </div>
 
   <div class="cert-strip">
@@ -141,6 +141,6 @@
 
 <footer>© <span id="year"></span> Dr. Oscar Ojeda Razo · Noah — Nacer con Propósito</footer>
 
-<script src="script.js?v=6"></script>
+<script src="script.js?v=7"></script>
 </body>
 </html>
