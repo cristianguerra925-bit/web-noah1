@@ -43,7 +43,7 @@ nav#mainNav a:hover{color:var(--teal-600);}
 .about-intro h2{font-family:'Fraunces', serif; font-size:34px; font-weight:600; margin-bottom:18px;}
 .about-intro p{color:var(--ink-600); font-size:15.5px; max-width:760px; margin-bottom:20px;}
 .badges{display:flex; flex-wrap:wrap; gap:10px; margin-bottom:40px;}
-.badge{border:0; font-family:inherit; cursor:pointer; background:var(--cream-100); padding:8px 16px; border-radius:20px; font-size:13.5px; font-weight:600; color:var(--purple-700);}
+.badge{text-decoration:none; display:inline-block; border:0; font-family:inherit; cursor:pointer; background:var(--cream-100); padding:8px 16px; border-radius:20px; font-size:13.5px; font-weight:600; color:var(--purple-700);}
 .cert-strip{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
 .cert-strip figure{margin:0;}
 .cert-strip img{border-radius:14px; border:1px solid var(--cream-100); box-shadow:0 10px 24px rgba(29,107,110,.08);}

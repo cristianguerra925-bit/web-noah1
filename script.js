@@ -25,10 +25,6 @@ form.addEventListener('submit', function (e) {
 
 // Información de formación: al picar un chip se abre su detalle
 const BADGE_INFO = {
-  conacem: {
-    titulo: 'Certificado CONACEM',
-    texto: 'El Consejo Mexicano de Ginecología y Obstetricia, A.C. (CONACEM) es el organismo que certifica que un médico especialista cuenta con la competencia requerida para ejercer la Ginecología y Obstetricia en México. Esta certificación avala su preparación y su actualización constante.'
-  },
   especialista: {
     titulo: 'Especialista en Ginecología y Obstetricia',
     texto: 'La especialidad abarca la salud de la mujer en todas sus etapas:',
