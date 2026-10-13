@@ -123,6 +123,4 @@ html, body{overflow-x:hidden;}
 }
 
 /* Fotos de "Lo que me define" */
-.personal-card{display:flex; flex-direction:column;}
-.personal-img{margin-top:auto; padding-top:0; width:100%; height:200px; object-fit:cover; border-radius:14px; display:block;}
-.personal-card p{margin-bottom:18px;}
+.personal-img{width:130px; height:130px; object-fit:cover; border-radius:50%; display:block; margin:0 auto 16px; box-shadow:0 8px 20px rgba(29,107,110,.18);}
