@@ -405,3 +405,13 @@ h2.words-in .sw > span{transform:none;}
   .stack-card:first-child img{aspect-ratio:16/10;}
   .pan{border-width:6px;}
 }
+
+/* ===== Frase de la sudadera: fija, sin efectos al bajar ===== */
+.sudadera-block{position:relative; top:auto; margin-top:96px; scale:1;}
+.sudadera-block:hover img{--rot:0deg; --sc:1.04;}
+.sudadera-block::after{animation:orbFloat 9s ease-in-out infinite alternate;}
+@keyframes orbFloat{from{transform:translate(0,0) scale(1);}to{transform:translate(40px,-26px) scale(1.12);}}
+@media (max-width: 860px){ .sudadera-block{margin-top:70px;} }
+
+/* Sin movimiento lateral: el html lo bloquea; el body usa "clip" para no romper los elementos pegajosos */
+html{overflow-x:hidden;}

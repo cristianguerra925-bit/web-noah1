@@ -83,7 +83,7 @@ const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches
 const root = document.documentElement;
 
 // Aparición suave de elementos
-const revealEls = $$('.about-intro, .cert-strip figure, .personal h2, .personal > .section-label, .gallery-sec > *:not(.gallery), .huellitas-sec > *:not(.huellitas-grid), .contact');
+const revealEls = $$('.about-intro, .sudadera-block, .cert-strip figure, .personal h2, .personal > .section-label, .gallery-sec > *:not(.gallery), .huellitas-sec > *:not(.huellitas-grid), .contact');
 revealEls.forEach(el => el.classList.add('reveal'));
 const storyRows = $$('.story-row');
 const io = 'IntersectionObserver' in window ? new IntersectionObserver((entries) => {
@@ -124,29 +124,10 @@ $$('.cert-strip img, .stack-card img, .pan img, .sudadera-block img').forEach(im
 lightbox.addEventListener('click', (e) => { if (e.target !== lbImg) closeLightbox(); });
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !lightbox.hidden) closeLightbox(); });
 
-// Frase de la sudadera: cada palabra se ilumina al bajar
-const quote = $('#quote');
-const words = [];
-if (quote) {
-  const text = quote.textContent.trim();
-  quote.textContent = '';
-  text.split(/\s+/).forEach((w, i, arr) => {
-    const s = document.createElement('span');
-    s.className = 'w';
-    s.textContent = w;
-    quote.appendChild(s);
-    if (i < arr.length - 1) quote.appendChild(document.createTextNode(' '));
-    words.push(s);
-  });
-}
-
 // Actualización por scroll (una sola vez por cuadro)
 const siteHeader = $('#site-header');
 const progressBar = $('#progress');
 const storyImgs = $$('.story-media img');
-const sudaderaBlock = $('#sudadera');
-const quotePin = $('#quotePin');
-const sudaderaImg = $('.sudadera-block img');
 const ecg = $('#ecg');
 const ecgPath = $('#ecgPath');
 const toTop = $('#toTop');
@@ -176,20 +157,6 @@ function update() {
     const p = (r.top + r.height / 2 - vh / 2) / vh; // -1..1
     img.style.setProperty('--py', (p * -38).toFixed(1) + 'px');
   });
-
-  // Frase fija: las palabras se encienden mientras la caja queda pegada
-  if (words.length && quotePin) {
-    const r = quotePin.getBoundingClientRect();
-    const p = clamp(-r.top / Math.max(1, r.height - vh * 0.9));
-    const on = Math.round(clamp(p * 1.08) * words.length);
-    words.forEach((w, i) => w.classList.toggle('on', i < on));
-    quotePin.style.setProperty('--p', p.toFixed(3));
-    if (sudaderaBlock) sudaderaBlock.style.setProperty('--bs', (0.93 + clamp(p * 4) * 0.07).toFixed(3));
-    if (sudaderaImg) {
-      sudaderaImg.style.setProperty('--rot', (-6 + clamp(p * 1.6) * 6).toFixed(2) + 'deg');
-      sudaderaImg.style.setProperty('--sc', (0.94 + clamp(p * 1.6) * 0.06).toFixed(3));
-    }
-  }
 
   // Línea de latido: se dibuja al bajar
   if (ecg) {
