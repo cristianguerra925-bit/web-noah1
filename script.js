@@ -3,9 +3,15 @@ document.getElementById('year').textContent = new Date().getFullYear();
 // Menú móvil
 const menuToggle = document.getElementById('menuToggle');
 const mainNav = document.getElementById('mainNav');
-menuToggle.addEventListener('click', () => mainNav.classList.toggle('open'));
+menuToggle.addEventListener('click', () => {
+  mainNav.classList.toggle('open');
+  menuToggle.setAttribute('aria-expanded', mainNav.classList.contains('open'));
+});
 mainNav.querySelectorAll('a').forEach(link => {
-  link.addEventListener('click', () => mainNav.classList.remove('open'));
+  link.addEventListener('click', () => {
+    mainNav.classList.remove('open');
+    menuToggle.setAttribute('aria-expanded', 'false');
+  });
 });
 
 // Formulario de contacto
@@ -66,39 +72,37 @@ badgeButtons.forEach(btn => {
   });
 });
 
-// ---- Mejoras de diseño ----
-// Sombra del menú al bajar
-const siteHeader = document.getElementById('site-header');
-const onScroll = () => siteHeader.classList.toggle('scrolled', window.scrollY > 10);
-window.addEventListener('scroll', onScroll, { passive: true });
-onScroll();
+// ---------------------------------------------------------------
+// Experiencia interactiva al bajar
+// ---------------------------------------------------------------
+const $ = (s, c = document) => c.querySelector(s);
+const $$ = (s, c = document) => [...c.querySelectorAll(s)];
+const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+const root = document.documentElement;
 
-// Menú móvil: estado accesible
-menuToggle.addEventListener('click', () =>
-  menuToggle.setAttribute('aria-expanded', mainNav.classList.contains('open')));
-
-// Aparición suave de las secciones al hacer scroll
-const revealEls = document.querySelectorAll(
-  '.hero-text, .hero-photo, .about-intro, .cert-strip figure, .personal h2, .personal-card, .sudadera-block, .gallery img, .huellitas-sec > *, .huellitas-grid img, .contact'
-);
+// Aparición suave de elementos
+const revealEls = $$('.about-intro, .cert-strip figure, .personal h2, .personal > .section-label, .gallery-sec > *:not(.gallery), .huellitas-sec > *:not(.huellitas-grid), .contact');
 revealEls.forEach(el => el.classList.add('reveal'));
-if ('IntersectionObserver' in window) {
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-  revealEls.forEach((el, i) => { el.style.transitionDelay = (i % 3) * 80 + 'ms'; io.observe(el); });
-} else {
-  revealEls.forEach(el => el.classList.add('in'));
-}
+const storyRows = $$('.story-row');
+const io = 'IntersectionObserver' in window ? new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' }) : null;
+[...revealEls, ...storyRows].forEach(el => io ? io.observe(el) : el.classList.add('in'));
 
-// Resaltar en el menú la sección donde estás
-const navLinks = [...document.querySelectorAll('#mainNav a')];
-const sections = navLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+// Menú y puntos laterales: sección activa
+const navLinks = $$('#mainNav a');
+const dotLinks = $$('#dots a');
+const sectionIds = [...new Set([...navLinks, ...dotLinks].map(a => a.getAttribute('href')))];
+const sections = sectionIds.map(id => $(id)).filter(Boolean);
 if ('IntersectionObserver' in window) {
   const navIo = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) {
-        navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+        const id = '#' + e.target.id;
+        navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === id));
+        dotLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === id));
       }
     });
   }, { rootMargin: '-45% 0px -50% 0px' });
@@ -106,10 +110,10 @@ if ('IntersectionObserver' in window) {
 }
 
 // Visor para ampliar certificados y fotos
-const lightbox = document.getElementById('lightbox');
-const lbImg = document.getElementById('lbImg');
+const lightbox = $('#lightbox');
+const lbImg = $('#lbImg');
 const closeLightbox = () => { lightbox.hidden = true; lbImg.src = ''; document.body.style.overflow = ''; };
-document.querySelectorAll('.cert-strip img, .gallery img, .huellitas-grid img, .sudadera-block img').forEach(img => {
+$$('.cert-strip img, .stack-card img, .pan img, .sudadera-block img').forEach(img => {
   img.addEventListener('click', () => {
     lbImg.src = img.currentSrc || img.src;
     lbImg.alt = img.alt;
@@ -120,36 +124,116 @@ document.querySelectorAll('.cert-strip img, .gallery img, .huellitas-grid img, .
 lightbox.addEventListener('click', (e) => { if (e.target !== lbImg) closeLightbox(); });
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !lightbox.hidden) closeLightbox(); });
 
-// ---- Segunda ronda ----
-// Barra de progreso de lectura
-const progressBar = document.getElementById('progress');
-const updateProgress = () => {
-  const h = document.documentElement.scrollHeight - innerHeight;
-  progressBar.style.width = (h > 0 ? (scrollY / h) * 100 : 0) + '%';
-};
-window.addEventListener('scroll', updateProgress, { passive: true });
-updateProgress();
+// Frase de la sudadera: cada palabra se ilumina al bajar
+const quote = $('#quote');
+const words = [];
+if (quote) {
+  const text = quote.textContent.trim();
+  quote.textContent = '';
+  text.split(/\s+/).forEach((w, i, arr) => {
+    const s = document.createElement('span');
+    s.className = 'w';
+    s.textContent = w;
+    quote.appendChild(s);
+    if (i < arr.length - 1) quote.appendChild(document.createTextNode(' '));
+    words.push(s);
+  });
+}
 
-// Efecto 3D suave en tarjetas y movimiento de la foto principal (solo con mouse)
-const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+// Galería apilada: numerar tarjetas
+const stackCards = $$('.stack-card');
+stackCards.forEach((c, i) => c.style.setProperty('--i', i));
+
+// Actualización por scroll (una sola vez por cuadro)
+const siteHeader = $('#site-header');
+const progressBar = $('#progress');
+const storyImgs = $$('.story-media img');
+const pans = $$('.pan');
+const sudaderaBlock = $('#sudadera');
+const sudaderaImg = $('.sudadera-block img');
+let ticking = false;
+
+function update() {
+  ticking = false;
+  const vh = innerHeight;
+  const y = scrollY;
+
+  // Cabecera y barra de progreso
+  siteHeader.classList.toggle('scrolled', y > 10);
+  const max = document.documentElement.scrollHeight - vh;
+  progressBar.style.width = (max > 0 ? (y / max) * 100 : 0) + '%';
+
+  if (reduceMotion) return;
+
+  // Hero: capas a distinta velocidad
+  if (y < vh * 1.2) root.style.setProperty('--sy', y.toFixed(1));
+
+  // Lo que me define: las fotos se desplazan dentro de su marco
+  storyImgs.forEach(img => {
+    const r = img.parentElement.getBoundingClientRect();
+    if (r.bottom < -50 || r.top > vh + 50) return;
+    const p = (r.top + r.height / 2 - vh / 2) / vh; // -1..1
+    img.style.setProperty('--py', (p * -38).toFixed(1) + 'px');
+  });
+
+  // Frase: palabras que se encienden
+  if (words.length && sudaderaBlock) {
+    const r = sudaderaBlock.getBoundingClientRect();
+    const p = clamp((vh * 0.82 - r.top) / (vh * 0.5));
+    const on = Math.round(p * words.length);
+    words.forEach((w, i) => w.classList.toggle('on', i < on));
+    if (sudaderaImg) {
+      sudaderaImg.style.setProperty('--rot', (-6 + p * 6).toFixed(2) + 'deg');
+      sudaderaImg.style.setProperty('--sc', (0.94 + p * 0.06).toFixed(3));
+    }
+  }
+
+  // Galería: la tarjeta anterior se hunde cuando llega la siguiente
+  stackCards.forEach((card, i) => {
+    const next = stackCards[i + 1];
+    if (!next) return;
+    const stickTop = parseFloat(getComputedStyle(next).top) || 96;
+    const nt = next.getBoundingClientRect().top;
+    const p = clamp((vh - nt) / (vh - stickTop));
+    card.style.setProperty('--sc', (1 - p * 0.06).toFixed(3));
+    card.style.setProperty('--br', (1 - p * 0.18).toFixed(3));
+  });
+
+  // Huellitas: la pared se desliza de lado mientras pasas
+  pans.forEach(pan => {
+    const r = pan.getBoundingClientRect();
+    if (r.bottom < -50 || r.top > vh + 50) return;
+    const img = pan.firstElementChild;
+    const extra = Math.max(0, img.offsetWidth - pan.clientWidth);
+    const p = clamp((vh - r.top) / (vh + r.height));
+    img.style.setProperty('--pan', (-extra * p).toFixed(1) + 'px');
+  });
+}
+function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+window.addEventListener('scroll', onScroll, { passive: true });
+window.addEventListener('resize', onScroll);
+window.addEventListener('load', update);
+update();
+
+// Con mouse: tarjetas con inclinación suave y foto principal que sigue el cursor
 if (canHover && !reduceMotion) {
-  document.querySelectorAll('.personal-card, .cert-strip figure').forEach(card => {
+  $$('.cert-strip figure').forEach(card => {
     card.addEventListener('mousemove', (e) => {
       const r = card.getBoundingClientRect();
       const x = (e.clientX - r.left) / r.width - 0.5;
       const y = (e.clientY - r.top) / r.height - 0.5;
-      card.style.transform = `perspective(900px) rotateX(${(-y * 6).toFixed(2)}deg) rotateY(${(x * 8).toFixed(2)}deg) translateY(-8px)`;
+      card.style.transform = `perspective(900px) rotateX(${(-y * 5).toFixed(2)}deg) rotateY(${(x * 7).toFixed(2)}deg) translateY(-6px)`;
     });
     card.addEventListener('mouseleave', () => { card.style.transform = ''; });
   });
-  const photoWrap = document.querySelector('.photo-wrap');
-  const heroEl = document.querySelector('.hero');
+  const heroEl = $('.hero');
   heroEl.addEventListener('mousemove', (e) => {
     const r = heroEl.getBoundingClientRect();
-    const x = (e.clientX - r.left) / r.width - 0.5;
-    const y = (e.clientY - r.top) / r.height - 0.5;
-    photoWrap.style.transform = `translate(${(x * 14).toFixed(1)}px, ${(y * 10).toFixed(1)}px)`;
+    root.style.setProperty('--mx', (((e.clientX - r.left) / r.width - 0.5) * 16).toFixed(1));
+    root.style.setProperty('--my', (((e.clientY - r.top) / r.height - 0.5) * 12).toFixed(1));
   });
-  heroEl.addEventListener('mouseleave', () => { photoWrap.style.transform = ''; });
+  heroEl.addEventListener('mouseleave', () => {
+    root.style.setProperty('--mx', 0);
+    root.style.setProperty('--my', 0);
+  });
 }

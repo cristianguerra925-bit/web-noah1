@@ -18,7 +18,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script>document.documentElement.classList.add("js")</script>
-<link rel="stylesheet" href="style.css?v=13">
+<link rel="stylesheet" href="style.css?v=20">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -61,6 +61,15 @@
   </div>
 </header>
 
+<nav class="dots" id="dots" aria-label="Secciones">
+  <a href="#inicio" data-label="Inicio"></a>
+  <a href="#sobre-mi" data-label="Sobre mí"></a>
+  <a href="#personal" data-label="Lo que me define"></a>
+  <a href="#galeria" data-label="Galería"></a>
+  <a href="#huellitas" data-label="Nacer con Propósito"></a>
+  <a href="#contacto" data-label="Contacto"></a>
+</nav>
+
 <section class="hero" id="inicio">
   <div class="hero-text">
     <div class="hero-eyebrow">GINECOLOGÍA Y OBSTETRICIA · IRAPUATO, GTO.</div>
@@ -77,7 +86,7 @@
     </ul>
   </div>
   <div class="hero-photo">
-    <div class="photo-wrap">
+    <div class="photo-wrap" id="photoWrap">
       <div class="blob-frame"><img src="assets/doctor-hero.jpg" alt="Dr. Oscar Ojeda Razo" fetchpriority="high"></div>
       <div class="float-card fc-1">
         <span class="fc-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.2 8-8 9-4.8-1-8-4.5-8-9V6l8-3z"/><path d="M9 12l2 2 4-4"/></svg></span>
@@ -89,62 +98,76 @@
       </div>
     </div>
   </div>
+  <a class="scroll-cue" href="#sobre-mi" aria-label="Seguir bajando"><span>Desliza</span><i></i></a>
 </section>
 
 <section class="about" id="sobre-mi">
-  <div class="about-intro">
-    <div class="section-label">SOBRE EL DOCTOR</div>
-    <h2>Dr. Oscar Rubén Ojeda Razo</h2>
-    <p>Médico especialista certificado en Ginecología y Obstetricia por el Consejo Mexicano de Ginecología y Obstetricia, A.C., con estudios en Administración de Hospitales y Gerencia en Salud. Su formación continua incluye actualización constante en temas de salud hormonal y climaterio, siempre con el objetivo de ofrecer una atención integral y actualizada a sus pacientes.</p>
-    <div class="badges">
-      <button type="button" class="badge" data-info="conacem" aria-expanded="false">Certificado CONACEM</button>
-      <button type="button" class="badge" data-info="especialista" aria-expanded="false">Especialista en Ginecología y Obstetricia</button>
-      <button type="button" class="badge" data-info="diplomado" aria-expanded="false">Diplomado en Administración de Hospitales</button>
+  <div class="about-grid">
+    <div class="about-intro">
+      <div class="section-label">SOBRE EL DOCTOR</div>
+      <h2>Dr. Oscar Rubén Ojeda Razo</h2>
+      <p>Médico especialista certificado en Ginecología y Obstetricia por el Consejo Mexicano de Ginecología y Obstetricia, A.C., con estudios en Administración de Hospitales y Gerencia en Salud. Su formación continua incluye actualización constante en temas de salud hormonal y climaterio, siempre con el objetivo de ofrecer una atención integral y actualizada a sus pacientes.</p>
+      <div class="badges">
+        <button type="button" class="badge" data-info="conacem" aria-expanded="false">Certificado CONACEM</button>
+        <button type="button" class="badge" data-info="especialista" aria-expanded="false">Especialista en Ginecología y Obstetricia</button>
+        <button type="button" class="badge" data-info="diplomado" aria-expanded="false">Diplomado en Administración de Hospitales</button>
+      </div>
+      <div class="badge-info" id="badgeInfo" role="region" aria-live="polite" hidden></div>
+      <p class="zoom-hint">Toca un certificado para verlo en grande.</p>
     </div>
-    <div class="badge-info" id="badgeInfo" role="region" aria-live="polite" hidden></div>
-  </div>
 
-  <div class="cert-strip">
-    <figure><img src="assets/cert-ginecologia.jpg" alt="Certificado de especialista en Ginecología y Obstetricia, CONACEM" loading="lazy"><figcaption>Certificado de Especialidad — CONACEM</figcaption></figure>
-    <figure><img src="assets/cert-amec.jpg" alt="Constancia AMEC, Beneficio Farmacológico en el Climaterio" loading="lazy"><figcaption>Constancia AMEC — Climaterio</figcaption></figure>
-    <figure><img src="assets/cert-montesion.jpg" alt="Diplomado en Administración de Hospitales y Gerencia en Salud" loading="lazy"><figcaption>Diplomado — Administración Hospitalaria</figcaption></figure>
+    <div class="cert-strip">
+      <figure><img src="assets/cert-ginecologia.jpg" alt="Certificado de especialista en Ginecología y Obstetricia, CONACEM" loading="lazy"><figcaption>Certificado de Especialidad — CONACEM</figcaption></figure>
+      <figure><img src="assets/cert-amec.jpg" alt="Constancia AMEC, Beneficio Farmacológico en el Climaterio" loading="lazy"><figcaption>Constancia AMEC — Climaterio</figcaption></figure>
+      <figure><img src="assets/cert-montesion.jpg" alt="Diplomado en Administración de Hospitales y Gerencia en Salud" loading="lazy"><figcaption>Diplomado — Administración Hospitalaria</figcaption></figure>
+    </div>
   </div>
-  <p class="zoom-hint">Toca o da clic en un certificado para verlo en grande.</p>
 </section>
 
-<section class="personal">
+<section class="personal" id="personal">
   <div class="section-label center">MÁS ALLÁ DE LA BATA BLANCA</div>
   <h2 class="center">Lo que me define</h2>
-  <div class="personal-grid">
-    <div class="personal-card">
-      <img class="personal-img" src="assets/personal-barco.jpg" alt="Velero en el mar" loading="lazy">
-      <h3>El timón y el ancla</h3>
-      <p>Me gustan los barcos por lo que representan: el timón, porque tú decides el rumbo que quieres tomar en la vida; y el ancla, porque a veces hay que detenerse por un motivo importante — no siempre hay que seguir de largo, a veces hay que parar a respirar.</p>
-    </div>
-    <div class="personal-card">
-      <img class="personal-img" src="assets/personal-moto.jpg" alt="Motocicleta deportiva roja" loading="lazy">
-      <h3>Motociclismo</h3>
-      <p>Cuando no está en el consultorio, disfruta salir en moto — una forma de despejar la mente y disfrutar el camino con la misma pasión que pone en su trabajo.</p>
-    </div>
-    <div class="personal-card">
-      <img class="personal-img" src="assets/personal-ganesha.webp" alt="Anillo con la figura de Ganesha" loading="lazy">
-      <h3>Cultura hindú y Ganesha</h3>
-      <p>Es admirador de la cultura hindú, en especial de Ganesha, la deidad que remueve obstáculos y representa nuevos comienzos — un símbolo que conecta muy bien con acompañar a sus pacientes en el camino hacia la maternidad.</p>
-    </div>
+
+  <div class="story">
+    <article class="story-row">
+      <div class="story-media"><img class="personal-img" src="assets/personal-barco.jpg" alt="Velero en el mar" loading="lazy"></div>
+      <div class="story-text">
+        <span class="story-num">01</span>
+        <h3>El timón y el ancla</h3>
+        <p>Me gustan los barcos por lo que representan: el timón, porque tú decides el rumbo que quieres tomar en la vida; y el ancla, porque a veces hay que detenerse por un motivo importante — no siempre hay que seguir de largo, a veces hay que parar a respirar.</p>
+      </div>
+    </article>
+    <article class="story-row">
+      <div class="story-media"><img class="personal-img" src="assets/personal-moto.jpg" alt="Motocicleta deportiva roja" loading="lazy"></div>
+      <div class="story-text">
+        <span class="story-num">02</span>
+        <h3>Motociclismo</h3>
+        <p>Cuando no está en el consultorio, disfruta salir en moto — una forma de despejar la mente y disfrutar el camino con la misma pasión que pone en su trabajo.</p>
+      </div>
+    </article>
+    <article class="story-row">
+      <div class="story-media"><img class="personal-img" src="assets/personal-ganesha.webp" alt="Anillo con la figura de Ganesha" loading="lazy"></div>
+      <div class="story-text">
+        <span class="story-num">03</span>
+        <h3>Cultura hindú y Ganesha</h3>
+        <p>Es admirador de la cultura hindú, en especial de Ganesha, la deidad que remueve obstáculos y representa nuevos comienzos — un símbolo que conecta muy bien con acompañar a sus pacientes en el camino hacia la maternidad.</p>
+      </div>
+    </article>
   </div>
-  <div class="sudadera-block">
+
+  <div class="sudadera-block" id="sudadera">
     <img src="assets/sudadera.jpg" alt="Dr. Oscar Ojeda con sudadera de diseño bordado" loading="lazy">
-    <p>"Yo soy un hombre creativo, honesto, valiente" — una prenda que refleja su lado más personal, más allá del consultorio.</p>
+    <p id="quote">"Yo soy un hombre creativo, honesto, valiente" — una prenda que refleja su lado más personal, más allá del consultorio.</p>
   </div>
 </section>
 
 <section class="gallery-sec" id="galeria">
   <div class="section-label">TRABAJO Y CONSULTORIO</div>
   <h2>Galería</h2>
-  <div class="gallery">
-    <img src="assets/galeria-collage.jpg" alt="Momentos del consultorio y nacimientos" loading="lazy">
-    <img src="assets/galeria-paciente1.jpg" alt="Dr. Ojeda con paciente y recién nacido" loading="lazy">
-    <img src="assets/galeria-quirofano.jpg" alt="Dr. Ojeda en quirófano" loading="lazy">
+  <div class="gallery" id="gallery">
+    <div class="stack-card"><img src="assets/galeria-collage.jpg" alt="Momentos del consultorio y nacimientos" loading="lazy"></div>
+    <div class="stack-card"><img src="assets/galeria-paciente1.jpg" alt="Dr. Ojeda con paciente y recién nacido" loading="lazy"></div>
+    <div class="stack-card"><img src="assets/galeria-quirofano.jpg" alt="Dr. Ojeda en quirófano" loading="lazy"></div>
   </div>
 </section>
 
@@ -153,10 +176,11 @@
   <h2 class="center">Cada huellita, una historia</h2>
   <p class="center intro-p">En el consultorio, cada bebé que llega deja su huella — una pared que crece con cada nuevo nacimiento y cada historia de amor.</p>
   <div class="huellitas-grid">
-    <img src="assets/huellitas-1.jpg" alt="Pared de huellitas de bebés, Nacer con Propósito" loading="lazy">
-    <img src="assets/huellitas-2.jpg" alt="Pared de huellitas de bebés, Nacer con Propósito" loading="lazy">
-    <img src="assets/huellitas-3.jpg" alt="Pared de huellitas de bebés, Nacer con Propósito" loading="lazy">
+    <div class="pan"><img src="assets/huellitas-1.jpg" alt="Pared de huellitas de bebés, Nacer con Propósito" loading="lazy"></div>
+    <div class="pan"><img src="assets/huellitas-2.jpg" alt="Pared de huellitas de bebés, Nacer con Propósito" loading="lazy"></div>
+    <div class="pan"><img src="assets/huellitas-3.jpg" alt="Pared de huellitas de bebés, Nacer con Propósito" loading="lazy"></div>
   </div>
+  <p class="pan-hint">Sigue bajando y la pared se desliza para que veas cada huella.</p>
 </section>
 
 <section class="contact-sec" id="contacto">
@@ -202,6 +226,6 @@
   <img id="lbImg" alt="">
 </div>
 
-<script src="script.js?v=13"></script>
+<script src="script.js?v=20"></script>
 </body>
 </html>
