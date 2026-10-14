@@ -150,7 +150,11 @@ const progressBar = $('#progress');
 const storyImgs = $$('.story-media img');
 const pans = $$('.pan');
 const sudaderaBlock = $('#sudadera');
+const quotePin = $('#quotePin');
 const sudaderaImg = $('.sudadera-block img');
+const ecg = $('#ecg');
+const ecgPath = $('#ecgPath');
+const toTop = $('#toTop');
 let ticking = false;
 
 function update() {
@@ -160,6 +164,8 @@ function update() {
 
   // Cabecera y barra de progreso
   siteHeader.classList.toggle('scrolled', y > 10);
+  toTop.classList.toggle('show', y > vh * 0.8);
+  toTop.style.setProperty('--tp', (document.documentElement.scrollHeight - vh > 0 ? (y / (document.documentElement.scrollHeight - vh)) * 100 : 0).toFixed(1));
   const max = document.documentElement.scrollHeight - vh;
   progressBar.style.width = (max > 0 ? (y / max) * 100 : 0) + '%';
 
@@ -176,15 +182,17 @@ function update() {
     img.style.setProperty('--py', (p * -38).toFixed(1) + 'px');
   });
 
-  // Frase: palabras que se encienden
-  if (words.length && sudaderaBlock) {
-    const r = sudaderaBlock.getBoundingClientRect();
-    const p = clamp((vh * 0.82 - r.top) / (vh * 0.5));
-    const on = Math.round(p * words.length);
+  // Frase fija: las palabras se encienden mientras la caja queda pegada
+  if (words.length && quotePin) {
+    const r = quotePin.getBoundingClientRect();
+    const p = clamp(-r.top / Math.max(1, r.height - vh * 0.9));
+    const on = Math.round(clamp(p * 1.08) * words.length);
     words.forEach((w, i) => w.classList.toggle('on', i < on));
+    quotePin.style.setProperty('--p', p.toFixed(3));
+    if (sudaderaBlock) sudaderaBlock.style.setProperty('--bs', (0.93 + clamp(p * 4) * 0.07).toFixed(3));
     if (sudaderaImg) {
-      sudaderaImg.style.setProperty('--rot', (-6 + p * 6).toFixed(2) + 'deg');
-      sudaderaImg.style.setProperty('--sc', (0.94 + p * 0.06).toFixed(3));
+      sudaderaImg.style.setProperty('--rot', (-6 + clamp(p * 1.6) * 6).toFixed(2) + 'deg');
+      sudaderaImg.style.setProperty('--sc', (0.94 + clamp(p * 1.6) * 0.06).toFixed(3));
     }
   }
 
@@ -198,6 +206,14 @@ function update() {
     card.style.setProperty('--sc', (1 - p * 0.06).toFixed(3));
     card.style.setProperty('--br', (1 - p * 0.18).toFixed(3));
   });
+
+  // Línea de latido: se dibuja al bajar
+  if (ecg) {
+    const r = ecg.getBoundingClientRect();
+    const p = clamp((vh * 0.9 - r.top) / (vh * 0.5));
+    ecgPath.style.strokeDashoffset = (1 - p).toFixed(3);
+    ecg.classList.toggle('beat', p > 0.97);
+  }
 
   // Huellitas: la pared se desliza de lado mientras pasas
   pans.forEach(pan => {
@@ -235,5 +251,113 @@ if (canHover && !reduceMotion) {
   heroEl.addEventListener('mouseleave', () => {
     root.style.setProperty('--mx', 0);
     root.style.setProperty('--my', 0);
+  });
+}
+
+// ---------------------------------------------------------------
+// Ronda 4: efectos extra
+// ---------------------------------------------------------------
+
+// Pantalla de entrada: solo una vez por visita
+try { sessionStorage.setItem('seen', '1'); } catch (e) {}
+
+// Títulos: aparecen palabra por palabra
+$$('h2').forEach(h2 => {
+  const nodes = [...h2.childNodes];
+  h2.textContent = '';
+  let idx = 0;
+  nodes.forEach(n => {
+    const txt = n.textContent;
+    txt.split(/(\s+)/).forEach(part => {
+      if (!part) return;
+      if (/^\s+$/.test(part)) { h2.appendChild(document.createTextNode(' ')); return; }
+      const sw = document.createElement('span'); sw.className = 'sw';
+      const inner = document.createElement('span'); inner.textContent = part;
+      inner.style.setProperty('--i', idx++);
+      sw.appendChild(inner); h2.appendChild(sw);
+    });
+  });
+  h2.setAttribute('aria-label', nodes.map(n => n.textContent).join('').trim());
+});
+if ('IntersectionObserver' in window) {
+  const h2Io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('words-in'); h2Io.unobserve(e.target); } });
+  }, { threshold: 0.4 });
+  $$('h2').forEach(h => h2Io.observe(h));
+} else {
+  $$('h2').forEach(h => h.classList.add('words-in'));
+}
+
+// Volver arriba
+$('#toTop').addEventListener('click', () => window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' }));
+
+// Fondo de la página que cambia de color suavemente
+if ('IntersectionObserver' in window) {
+  const bgIo = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) document.body.style.backgroundColor = e.target.dataset.bg; });
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  $$('[data-bg]').forEach(s => bgIo.observe(s));
+}
+
+// Cinta con movimiento: avanza sola y se acelera cuando haces scroll
+const mTrack = $('#marqueeTrack');
+if (mTrack && !reduceMotion) {
+  let mx = 0, lastY = scrollY, vel = 0;
+  const loop = () => {
+    const dy = scrollY - lastY; lastY = scrollY;
+    vel = vel * 0.9 + dy * 0.35;
+    mx -= 0.9 + Math.abs(vel);
+    const third = mTrack.scrollWidth / 3;
+    if (mx <= -third) mx += third;
+    mTrack.style.transform = `translateX(${mx.toFixed(1)}px)`;
+    requestAnimationFrame(loop);
+  };
+  requestAnimationFrame(loop);
+}
+
+// Huellitas que se estampan al dar clic en la sección de Nacer con Propósito
+const huellitasSec = $('#huellitas');
+const STAMP_COLORS = ['#46C1C6', '#9f62c2', '#A6CE39', '#e86fa4', '#f5a742'];
+huellitasSec.addEventListener('click', (e) => {
+  if (e.target.closest('a, img, button')) return;
+  const r = huellitasSec.getBoundingClientRect();
+  const NS = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(NS, 'svg');
+  svg.setAttribute('class', 'stamp');
+  const use = document.createElementNS(NS, 'use');
+  use.setAttribute('href', '#foot');
+  svg.appendChild(use);
+  svg.style.left = (e.clientX - r.left) + 'px';
+  svg.style.top = (e.clientY - r.top) + 'px';
+  svg.style.fill = STAMP_COLORS[Math.floor(Math.random() * STAMP_COLORS.length)];
+  svg.style.setProperty('--r', (Math.random() * 50 - 25).toFixed(0) + 'deg');
+  huellitasSec.appendChild(svg);
+  setTimeout(() => svg.remove(), 3700);
+});
+
+// Solo con mouse: brillo que sigue al cursor y botones magnéticos
+if (canHover && !reduceMotion) {
+  const glow = $('#cursorGlow');
+  glow.style.display = 'block';
+  let gx = innerWidth / 2, gy = innerHeight / 2, tx = gx, ty = gy;
+  window.addEventListener('mousemove', (e) => { tx = e.clientX; ty = e.clientY; glow.classList.add('on'); }, { passive: true });
+  document.addEventListener('mouseleave', () => glow.classList.remove('on'));
+  const follow = () => {
+    gx += (tx - gx) * 0.12; gy += (ty - gy) * 0.12;
+    glow.style.transform = `translate(${gx.toFixed(1)}px, ${gy.toFixed(1)}px)`;
+    requestAnimationFrame(follow);
+  };
+  requestAnimationFrame(follow);
+
+  $$('.btn-primary, .btn-ghost, .cta-btn, .wa-float').forEach(btn => {
+    btn.addEventListener('mousemove', (e) => {
+      const r = btn.getBoundingClientRect();
+      btn.style.setProperty('--tx', ((e.clientX - r.left - r.width / 2) * 0.22).toFixed(1) + 'px');
+      btn.style.setProperty('--ty', ((e.clientY - r.top - r.height / 2) * 0.3).toFixed(1) + 'px');
+    });
+    btn.addEventListener('mouseleave', () => {
+      btn.style.setProperty('--tx', '0px');
+      btn.style.setProperty('--ty', '0px');
+    });
   });
 }

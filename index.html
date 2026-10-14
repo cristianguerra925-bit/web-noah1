@@ -17,8 +17,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script>document.documentElement.classList.add("js")</script>
-<link rel="stylesheet" href="style.css?v=20">
+<script>document.documentElement.classList.add("js");try{if(sessionStorage.getItem("seen"))document.documentElement.classList.add("no-loader")}catch(e){}</script>
+<link rel="stylesheet" href="style.css?v=21">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -42,7 +42,10 @@
 </script>
 </head>
 <body>
+<div class="loader" id="loader" aria-hidden="true"><div class="loader-mark">N</div><div class="loader-bar"><i></i></div></div>
 <div class="progress" id="progress" aria-hidden="true"></div>
+<div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="foot" viewBox="0 0 24 34"><path d="M12 34c-4.2 0-7.2-3.2-6.4-8 .6-3.6 3-6.2 6.4-6.2s5.8 2.6 6.4 6.2C19.2 30.8 16.2 34 12 34z"/><circle cx="4.6" cy="14.4" r="2.6"/><circle cx="9.6" cy="9.6" r="2.3"/><circle cx="15" cy="9" r="2.1"/><circle cx="19.2" cy="12.6" r="1.9"/><circle cx="21.2" cy="17.4" r="1.6"/></symbol><symbol id="heart" viewBox="0 0 24 24"><path d="M12 21s-7.5-4.8-9.3-9.6C1.5 8 3.4 4.6 6.8 4.6c2 0 3.5 1.1 5.2 3.3 1.7-2.2 3.2-3.3 5.2-3.3 3.4 0 5.3 3.4 4.1 6.8C19.5 16.2 12 21 12 21z"/></symbol></defs></svg>
 
 <a class="skip-link" href="#sobre-mi">Saltar al contenido</a>
 
@@ -70,7 +73,17 @@
   <a href="#contacto" data-label="Contacto"></a>
 </nav>
 
-<section class="hero" id="inicio">
+<section class="hero" id="inicio" data-bg="#FBFAF6">
+  <div class="floaters" aria-hidden="true">
+    <svg class="fl" style="--l:4%;--s:34px;--d:0s;--t:19s;--c:#46C1C6"><use href="#foot"/></svg>
+    <svg class="fl" style="--l:14%;--s:22px;--d:-6s;--t:23s;--c:#9f62c2"><use href="#foot"/></svg>
+    <svg class="fl" style="--l:27%;--s:28px;--d:-12s;--t:21s;--c:#A6CE39"><use href="#foot"/></svg>
+    <svg class="fl" style="--l:41%;--s:20px;--d:-3s;--t:26s;--c:#46C1C6"><use href="#foot"/></svg>
+    <svg class="fl" style="--l:55%;--s:32px;--d:-16s;--t:20s;--c:#9f62c2"><use href="#foot"/></svg>
+    <svg class="fl" style="--l:68%;--s:24px;--d:-9s;--t:24s;--c:#46C1C6"><use href="#foot"/></svg>
+    <svg class="fl" style="--l:80%;--s:36px;--d:-14s;--t:22s;--c:#A6CE39"><use href="#foot"/></svg>
+    <svg class="fl" style="--l:91%;--s:26px;--d:-5s;--t:25s;--c:#9f62c2"><use href="#foot"/></svg>
+  </div>
   <div class="hero-text">
     <div class="hero-eyebrow">GINECOLOGÍA Y OBSTETRICIA · IRAPUATO, GTO.</div>
     <h1>Cuidado ginecológico<br>con <em class="grad">propósito</em>, en cada etapa.</h1>
@@ -101,7 +114,15 @@
   <a class="scroll-cue" href="#sobre-mi" aria-label="Seguir bajando"><span>Desliza</span><i></i></a>
 </section>
 
-<section class="about" id="sobre-mi">
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track" id="marqueeTrack">
+    <span>Salud de la mujer</span><i>✦</i><span>Embarazo</span><i>✦</i><span>Control ginecológico</span><i>✦</i><span>Salud hormonal</span><i>✦</i><span>Climaterio</span><i>✦</i><span>Nacer con Propósito</span><i>✦</i>
+    <span>Salud de la mujer</span><i>✦</i><span>Embarazo</span><i>✦</i><span>Control ginecológico</span><i>✦</i><span>Salud hormonal</span><i>✦</i><span>Climaterio</span><i>✦</i><span>Nacer con Propósito</span><i>✦</i>
+    <span>Salud de la mujer</span><i>✦</i><span>Embarazo</span><i>✦</i><span>Control ginecológico</span><i>✦</i><span>Salud hormonal</span><i>✦</i><span>Climaterio</span><i>✦</i><span>Nacer con Propósito</span><i>✦</i>
+  </div>
+</div>
+
+<section class="about" id="sobre-mi" data-bg="#FBFAF6">
   <div class="about-grid">
     <div class="about-intro">
       <div class="section-label">SOBRE EL DOCTOR</div>
@@ -124,7 +145,7 @@
   </div>
 </section>
 
-<section class="personal" id="personal">
+<section class="personal" id="personal" data-bg="#F7F1FB">
   <div class="section-label center">MÁS ALLÁ DE LA BATA BLANCA</div>
   <h2 class="center">Lo que me define</h2>
 
@@ -155,13 +176,15 @@
     </article>
   </div>
 
+  <div class="quote-pin" id="quotePin">
   <div class="sudadera-block" id="sudadera">
     <img src="assets/sudadera.jpg" alt="Dr. Oscar Ojeda con sudadera de diseño bordado" loading="lazy">
     <p id="quote">"Yo soy un hombre creativo, honesto, valiente" — una prenda que refleja su lado más personal, más allá del consultorio.</p>
   </div>
+  </div>
 </section>
 
-<section class="gallery-sec" id="galeria">
+<section class="gallery-sec" id="galeria" data-bg="#EAF8F8">
   <div class="section-label">TRABAJO Y CONSULTORIO</div>
   <h2>Galería</h2>
   <div class="gallery" id="gallery">
@@ -171,7 +194,12 @@
   </div>
 </section>
 
-<section class="huellitas-sec" id="huellitas">
+<section class="huellitas-sec" id="huellitas" data-bg="#EFF6FA">
+  <svg class="ecg" id="ecg" viewBox="0 0 1200 120" aria-hidden="true">
+    <defs><linearGradient id="ecgGrad" x1="0" x2="1"><stop offset="0" stop-color="#46C1C6"/><stop offset="1" stop-color="#9f62c2"/></linearGradient></defs>
+    <path id="ecgPath" pathLength="1" d="M0 70 H300 q15 -22 30 0 H400 l10 12 l14 -70 l16 96 l10 -38 H500 q25 -34 50 0 H1040" fill="none" stroke="url(#ecgGrad)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <use class="eh" href="#heart" x="1052" y="46" width="48" height="48"/>
+  </svg>
   <div class="section-label center">NACER CON PROPÓSITO</div>
   <h2 class="center">Cada huellita, una historia</h2>
   <p class="center intro-p">En el consultorio, cada bebé que llega deja su huella — una pared que crece con cada nuevo nacimiento y cada historia de amor.</p>
@@ -183,7 +211,7 @@
   <p class="pan-hint">Sigue bajando y la pared se desliza para que veas cada huella.</p>
 </section>
 
-<section class="contact-sec" id="contacto">
+<section class="contact-sec" id="contacto" data-bg="#FBFAF6">
   <div class="contact">
     <div>
       <h2>Contacto y ubicación</h2>
@@ -221,11 +249,13 @@
   <span>WhatsApp</span>
 </a>
 
+<button class="to-top" id="toTop" aria-label="Volver arriba"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V6M6 11l6-6 6 6"/></svg></button>
+
 <div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="Imagen ampliada">
   <button class="lb-close" id="lbClose" aria-label="Cerrar">✕</button>
   <img id="lbImg" alt="">
 </div>
 
-<script src="script.js?v=20"></script>
+<script src="script.js?v=21"></script>
 </body>
 </html>
