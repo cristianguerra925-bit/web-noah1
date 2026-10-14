@@ -119,3 +119,37 @@ document.querySelectorAll('.cert-strip img, .gallery img, .huellitas-grid img, .
 });
 lightbox.addEventListener('click', (e) => { if (e.target !== lbImg) closeLightbox(); });
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !lightbox.hidden) closeLightbox(); });
+
+// ---- Segunda ronda ----
+// Barra de progreso de lectura
+const progressBar = document.getElementById('progress');
+const updateProgress = () => {
+  const h = document.documentElement.scrollHeight - innerHeight;
+  progressBar.style.width = (h > 0 ? (scrollY / h) * 100 : 0) + '%';
+};
+window.addEventListener('scroll', updateProgress, { passive: true });
+updateProgress();
+
+// Efecto 3D suave en tarjetas y movimiento de la foto principal (solo con mouse)
+const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (canHover && !reduceMotion) {
+  document.querySelectorAll('.personal-card, .cert-strip figure').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5;
+      const y = (e.clientY - r.top) / r.height - 0.5;
+      card.style.transform = `perspective(900px) rotateX(${(-y * 6).toFixed(2)}deg) rotateY(${(x * 8).toFixed(2)}deg) translateY(-8px)`;
+    });
+    card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+  });
+  const photoWrap = document.querySelector('.photo-wrap');
+  const heroEl = document.querySelector('.hero');
+  heroEl.addEventListener('mousemove', (e) => {
+    const r = heroEl.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - 0.5;
+    const y = (e.clientY - r.top) / r.height - 0.5;
+    photoWrap.style.transform = `translate(${(x * 14).toFixed(1)}px, ${(y * 10).toFixed(1)}px)`;
+  });
+  heroEl.addEventListener('mouseleave', () => { photoWrap.style.transform = ''; });
+}
