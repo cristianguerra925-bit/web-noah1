@@ -65,3 +65,57 @@ badgeButtons.forEach(btn => {
     badgeInfo.hidden = false;
   });
 });
+
+// ---- Mejoras de diseño ----
+// Sombra del menú al bajar
+const siteHeader = document.getElementById('site-header');
+const onScroll = () => siteHeader.classList.toggle('scrolled', window.scrollY > 10);
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+
+// Menú móvil: estado accesible
+menuToggle.addEventListener('click', () =>
+  menuToggle.setAttribute('aria-expanded', mainNav.classList.contains('open')));
+
+// Aparición suave de las secciones al hacer scroll
+const revealEls = document.querySelectorAll(
+  '.hero-text, .hero-photo, .about-intro, .cert-strip figure, .personal h2, .personal-card, .sudadera-block, .gallery img, .huellitas-sec > *, .huellitas-grid img, .contact'
+);
+revealEls.forEach(el => el.classList.add('reveal'));
+if ('IntersectionObserver' in window) {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  revealEls.forEach((el, i) => { el.style.transitionDelay = (i % 3) * 80 + 'ms'; io.observe(el); });
+} else {
+  revealEls.forEach(el => el.classList.add('in'));
+}
+
+// Resaltar en el menú la sección donde estás
+const navLinks = [...document.querySelectorAll('#mainNav a')];
+const sections = navLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+if ('IntersectionObserver' in window) {
+  const navIo = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+      }
+    });
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  sections.forEach(s => navIo.observe(s));
+}
+
+// Visor para ampliar certificados y fotos
+const lightbox = document.getElementById('lightbox');
+const lbImg = document.getElementById('lbImg');
+const closeLightbox = () => { lightbox.hidden = true; lbImg.src = ''; document.body.style.overflow = ''; };
+document.querySelectorAll('.cert-strip img, .gallery img, .huellitas-grid img, .sudadera-block img').forEach(img => {
+  img.addEventListener('click', () => {
+    lbImg.src = img.currentSrc || img.src;
+    lbImg.alt = img.alt;
+    lightbox.hidden = false;
+    document.body.style.overflow = 'hidden';
+  });
+});
+lightbox.addEventListener('click', (e) => { if (e.target !== lbImg) closeLightbox(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !lightbox.hidden) closeLightbox(); });
