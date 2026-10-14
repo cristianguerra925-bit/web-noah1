@@ -383,3 +383,25 @@ h2.words-in .sw > span{transform:none;}
 }
 
 @media (max-height: 880px){ .scroll-cue{display:none;} }
+
+/* ===== Fotos fijas: sin apilado, sin deslizado, sin inclinación ===== */
+.gallery{display:grid; grid-template-columns:1fr 1fr; gap:22px;}
+.stack-card{position:static; top:auto; margin:0; transform:none; filter:none; will-change:auto; border-width:5px; border-radius:22px; transition:box-shadow .3s;}
+.stack-card:first-child{grid-column:1 / -1;}
+.stack-card img{width:100%; height:auto; aspect-ratio:4/3; object-fit:cover; object-position:center 30%;}
+.stack-card:first-child img{aspect-ratio:16/9; object-fit:contain; object-position:center;}
+.stack-card:hover{box-shadow:0 26px 50px rgba(159,98,194,.26);}
+.gallery-sec{padding-bottom:70px;}
+
+.pan{aspect-ratio:auto; overflow:hidden; transform:none; transition:box-shadow .3s;}
+.pan:hover{transform:none; box-shadow:0 26px 50px rgba(159,98,194,.26);}
+.pan img{display:block; width:100%; height:auto; min-width:0; max-width:100%; transform:none; will-change:auto;}
+.huellitas-grid{gap:30px;}
+
+@media (max-width: 860px){
+  .gallery{grid-template-columns:minmax(0,1fr); gap:18px;}
+  .stack-card{border-width:4px; border-radius:18px;}
+  .stack-card img, .stack-card:first-child img{aspect-ratio:auto; height:auto;}
+  .stack-card:first-child img{aspect-ratio:16/10;}
+  .pan{border-width:6px;}
+}

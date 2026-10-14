@@ -140,15 +140,10 @@ if (quote) {
   });
 }
 
-// Galería apilada: numerar tarjetas
-const stackCards = $$('.stack-card');
-stackCards.forEach((c, i) => c.style.setProperty('--i', i));
-
 // Actualización por scroll (una sola vez por cuadro)
 const siteHeader = $('#site-header');
 const progressBar = $('#progress');
 const storyImgs = $$('.story-media img');
-const pans = $$('.pan');
 const sudaderaBlock = $('#sudadera');
 const quotePin = $('#quotePin');
 const sudaderaImg = $('.sudadera-block img');
@@ -196,17 +191,6 @@ function update() {
     }
   }
 
-  // Galería: la tarjeta anterior se hunde cuando llega la siguiente
-  stackCards.forEach((card, i) => {
-    const next = stackCards[i + 1];
-    if (!next) return;
-    const stickTop = parseFloat(getComputedStyle(next).top) || 96;
-    const nt = next.getBoundingClientRect().top;
-    const p = clamp((vh - nt) / (vh - stickTop));
-    card.style.setProperty('--sc', (1 - p * 0.06).toFixed(3));
-    card.style.setProperty('--br', (1 - p * 0.18).toFixed(3));
-  });
-
   // Línea de latido: se dibuja al bajar
   if (ecg) {
     const r = ecg.getBoundingClientRect();
@@ -215,15 +199,6 @@ function update() {
     ecg.classList.toggle('beat', p > 0.97);
   }
 
-  // Huellitas: la pared se desliza de lado mientras pasas
-  pans.forEach(pan => {
-    const r = pan.getBoundingClientRect();
-    if (r.bottom < -50 || r.top > vh + 50) return;
-    const img = pan.firstElementChild;
-    const extra = Math.max(0, img.offsetWidth - pan.clientWidth);
-    const p = clamp((vh - r.top) / (vh + r.height));
-    img.style.setProperty('--pan', (-extra * p).toFixed(1) + 'px');
-  });
 }
 function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
 window.addEventListener('scroll', onScroll, { passive: true });
