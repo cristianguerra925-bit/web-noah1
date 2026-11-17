@@ -415,3 +415,6 @@ h2.words-in .sw > span{transform:none;}
 
 /* Sin movimiento lateral: el html lo bloquea; el body usa "clip" para no romper los elementos pegajosos */
 html{overflow-x:hidden;}
+
+.footer-seo{display:inline-block; margin-top:6px; font-size:12.5px; opacity:.85;}
+.footer-seo a{color:var(--purple-700); font-weight:600; text-decoration:underline; text-underline-offset:3px;}
